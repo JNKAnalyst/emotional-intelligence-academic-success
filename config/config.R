@@ -1,7 +1,7 @@
 # ── Configuration for EI Academic Success Analysis ──
 
 # Data paths
-DATA_PATH      <- "data/survey_data.csv"
+DATA_PATH      <- "data/sample_survey_data.csv"
 OUTPUT_PATH    <- "reports/output/"
 
 # NLP settings

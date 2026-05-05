@@ -4,9 +4,11 @@
 
 ## Overview
 
-This project transforms unstructured student sentiment data into quantifiable behavioral indicators using R and NLP. Regression analysis demonstrated a significant EI-to-performance correlation coefficient of **0.68**, validating emotional intelligence as a meaningful predictor of academic outcomes.
+This project transforms unstructured student sentiment data into quantifiable behavioral indicators using R and NLP. On the original study dataset, regression analysis produced an EI-to-performance correlation of **r ≈ 0.68**, supporting emotional intelligence as a meaningful predictor of academic outcomes.
 
-**Key Result:** Correlation coefficient of **r = 0.68** between EI indicators and academic performance scores.
+**Key Result (study dataset):** Correlation coefficient of **r ≈ 0.68** between EI indicators and academic performance scores.
+
+> The raw study dataset is **not** redistributed in this repository. A small synthetic sample (`data/sample_survey_data.csv`) is included so the pipeline runs end-to-end. Effect sizes on the synthetic sample are illustrative only.
 
 ## Tools & Technologies
 
@@ -24,6 +26,7 @@ This project transforms unstructured student sentiment data into quantifiable be
 ```
 emotional-intelligence-academic-success/
 ├── README.md
+├── DESCRIPTION                    # Package metadata and dependencies
 ├── analysis/
 │   ├── 01_data_cleaning.R
 │   ├── 02_nlp_processing.R
@@ -32,10 +35,13 @@ emotional-intelligence-academic-success/
 ├── reports/
 │   └── ei_academic_report.Rmd     # Full RMarkdown report
 ├── data/
-│   └── sample_survey_data.csv     # Sample anonymized dataset
+│   ├── README.md                  # Data schema and provenance notes
+│   └── sample_survey_data.csv     # Synthetic sample dataset
 ├── config/
 │   └── config.R                   # Central configuration file
-├── renv.lock                      # Reproducible R environment
+├── docs/
+│   └── methodology.md             # Methodology and statistical approach
+├── emotional-intelligence-academic-success.Rproj
 └── .Rprofile
 ```
 
@@ -57,28 +63,24 @@ emotional-intelligence-academic-success/
 2. **Open the project in RStudio**
    - Open `emotional-intelligence-academic-success.Rproj` (or open RStudio and set this as working directory)
 
-3. **Restore the R environment**
-   ```r
-   install.packages("renv")
-   renv::restore()
-   ```
-   This installs all required packages at the exact versions used in the project.
-
-4. **Manual package install (alternative to renv)**
+3. **Install required packages**
    ```r
    install.packages(c(
      "tidytext", "tm", "ggplot2", "caret",
-     "dplyr", "tidyr", "rmarkdown", "knitr",
-     "syuzhet", "corrplot", "lmtest"
+     "dplyr", "tidyr", "readr", "stringr",
+     "rmarkdown", "knitr", "syuzhet",
+     "corrplot", "lmtest"
    ))
    ```
+   The package list also lives in `DESCRIPTION` for tooling that reads it
+   (e.g. `renv::init()` will pick it up if you choose to add a lockfile).
 
 ## Configuration
 
 ### `config/config.R`
 ```r
 # Data paths
-DATA_PATH      <- "data/survey_data.csv"
+DATA_PATH      <- "data/sample_survey_data.csv"
 OUTPUT_PATH    <- "reports/output/"
 
 # NLP settings
@@ -121,14 +123,18 @@ rmarkdown::render("reports/ei_academic_report.Rmd")
 
 ## Results Summary
 
+Reported on the original study dataset (not included in this repository):
+
 | Metric | Value |
 |--------|-------|
-| Correlation (r) | 0.68 |
+| Correlation (r) | ≈ 0.68 |
 | p-value | < 0.001 |
-| R² (regression) | 0.46 |
+| R² (regression) | ≈ 0.46 |
 | Method | Multiple linear regression with NLP-derived features |
+
+See `docs/methodology.md` for the full methodology, measures, and limitations.
 
 ## Author
 
 **Joash** | MS Business Analytics  
-[GitHub](https://github.com/JNKAnalyst) | [Portfolio](https://jnkanalyst.github.io/portfolio/)
+[GitHub](https://github.com/JNKAnalyst)

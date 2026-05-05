@@ -1,0 +1,74 @@
+---
+title: "Emotional Intelligence as a Predictor of Academic Success"
+author: "Joash"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(dplyr)
+library(readr)
+library(ggplot2)
+source("../config/config.R", chdir = FALSE)
+```
+
+## Background
+
+This report investigates whether self-reported emotional intelligence (EI)
+indicators, augmented with NLP-derived features from open-ended student
+reflections, can predict academic performance (GPA).
+
+## Data
+
+```{r load-data}
+features <- read_csv("../data/features.csv", show_col_types = FALSE)
+glimpse(features)
+```
+
+## NLP Features
+
+The pipeline extracts three NLP-derived features from each student's free-text
+reflection:
+
+- `sentiment_compound` — overall sentiment via the `syuzhet` lexicon.
+- `emotional_vocab_count` — number of words drawn from a curated emotion lexicon.
+- `response_length` — token count, used as a control.
+
+## Regression Model
+
+```{r model}
+fit <- lm(
+  reformulate(EI_PREDICTORS, response = TARGET_VAR),
+  data = features
+)
+summary(fit)
+```
+
+## Visualizations
+
+```{r ei-vs-gpa}
+ggplot(features, aes(x = empathy_score, y = gpa_score)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(title = "Empathy vs GPA", x = "Empathy", y = "GPA") +
+  theme_minimal()
+```
+
+## Discussion
+
+The headline correlation reported in the project README (r = 0.68) reflects
+results obtained on the full study dataset, which is not redistributed in this
+repository. With the small synthetic sample shipped here the regression is
+illustrative only — readers should reproduce the pipeline on their own data
+to verify effect sizes.
+
+## Reproducibility
+
+All analysis is driven from `analysis/01_data_cleaning.R` →
+`analysis/02_nlp_processing.R` → `analysis/03_regression_analysis.R` →
+`analysis/04_visualization.R`. Configuration lives in `config/config.R`.

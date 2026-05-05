@@ -1,0 +1,21 @@
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Generated artifacts
+reports/output/
+data/cleaned_survey_data.csv
+data/features.csv
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# OS
+.DS_Store
+Thumbs.db
