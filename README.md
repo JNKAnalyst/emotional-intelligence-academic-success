@@ -136,5 +136,5 @@ See `docs/methodology.md` for the full methodology, measures, and limitations.
 
 ## Author
 
-**Joash** | MS Business Analytics  
+**Joash**  
 [GitHub](https://github.com/JNKAnalyst)
